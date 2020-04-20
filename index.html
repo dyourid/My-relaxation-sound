@@ -1,0 +1,246 @@
+<html>
+
+<title></title>
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<style>
+		
+
+		/* Style the tab */
+		.tab {
+		  overflow: hidden;
+		  border: 1px solid #ccc;
+		  background-color: #f1f1f1;
+		}
+
+		/* Style the buttons inside the tab */
+		.tab button {
+		  background-color: inherit;
+		  float: left;
+		  border: none;
+		  outline: none;
+		  cursor: pointer;
+		  padding: 14px 16px;
+		  transition: 0.3s;
+		  font-size: 17px;
+		}
+
+		/* Change background color of buttons on hover */
+		.tab button:hover {
+		  background-color: #ddd;
+		}
+
+		/* Create an active/current tablink class */
+		.tab button.active {
+		  background-color: #ccc;
+		}
+
+		/* Style the tab content */
+		.tabcontent {
+		  display: none;
+		  padding: 6px 12px;
+		  border: 1px solid #ccc;
+		  border-top: none;
+		}
+	</style>
+
+	<script type="text/javascript">
+		var sourceNodes = [];
+		function makeSound(name) {
+			var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+			var source = audioContext.createBufferSource();
+			sourceNodes.push(source);
+			
+			var request = new XMLHttpRequest();
+			
+			request.open('GET', name+'.webm', true);
+			
+			request.responseType = 'arraybuffer';
+			request.onload = function() {
+			  
+			  audioContext.decodeAudioData(request.response, function(buffer) {
+			    source.buffer = buffer;
+			    
+			    source.connect(audioContext.destination);
+			    
+			    source.loop = true;
+			   
+			    source.start(0);
+			  }, function(e) {
+			    console.log('Audio error! ', e);
+			  });
+			}
+			
+			request.send();
+		}
+	</script>
+
+	<script>
+	$(document).ready(function(){
+	  $("#rain_normal").click(function(){
+	    makeSound("rain_normal");
+	    $("#playlist").append("<li>rain_normal</li>");
+	  });
+
+	  $("#meditation_flute").click(function(){
+	    makeSound("meditation_flute");
+	    $("#playlist").append("<li>meditation_flute</li>");
+	  });
+
+	  $("#meditation_piano").click(function(){
+	    makeSound("meditation_piano");
+	    $("#playlist").append("<li>meditation_piano</li>");
+	  });
+
+	  $("#forest_creek").click(function(){
+	    makeSound("forest_creek");
+	    $("#playlist").append("<li>forest_creek</li>");
+	  });
+
+	  $("#forest_birds").click(function(){
+	    makeSound("forest_birds");
+	    $("#playlist").append("<li>forest_birds</li>");
+	  });
+
+	  $("#forest_fire").click(function(){
+	    makeSound("forest_fire");
+	    $("#playlist").append("<li>forest_fire</li>");
+	  });
+
+	  $("#forest_frogs").click(function(){
+	    makeSound("forest_frogs");
+	    $("#playlist").append("<li>forest_frogs</li>");
+	  });
+
+	  $("#forest_grasshoppers").click(function(){
+	    makeSound("forest_grasshoppers");
+	    $("#playlist").append("<li>forest_grasshoppers</li>");
+	  });
+
+	  $("#forest_waterfall").click(function(){
+	    makeSound("forest_waterfall");
+	    $("#playlist").append("<li>forest_waterfall</li>");
+	  });
+
+	  $("#meditation_bells").click(function(){
+	    makeSound("meditation_bells");
+	    $("#playlist").append("<li>meditation_bells</li>");
+	  });
+
+	  $("#rain_on_roof").click(function(){
+	    makeSound("rain_on_roof");
+	    $("#playlist").append("<li>rain_on_roof</li>");
+	  });
+
+	  $("#gray_noise").click(function(){
+	    makeSound("gray_noise");
+	    $("#playlist").append("<li>gray_noise</li>");
+	  });
+
+	  $("#pink_noise").click(function(){
+	    makeSound("pink_noise");
+	    $("#playlist").append("<li>pink_noise</li>");
+	  });
+
+	  $("#whitenoise").click(function(){
+	    makeSound("whitenoise");
+	    $("#playlist").append("<li>white_noise</li>");
+	  });
+
+	  $("#stop").click(function(){
+	    sourceNodes.forEach(s=>{
+	    	console.log("Pausing");
+	    	s.stop(0);
+	    	$("#playlist").html("");
+	    	value=0;
+	    });
+	  });
+
+	  start();
+
+	});
+
+	function changeValue() {
+		var m=0;
+		var s=++value;
+
+		if (s>60) {
+			m = s / 60;
+			s = s % 60;
+
+			document.getElementById("timer").innerHTML = parseInt(m) + " minute(s) and " + s + " second(s)";
+		} else {
+			document.getElementById("timer").innerHTML = s + " second(s)";
+		}
+	}
+
+	var timerInterval = null;
+	function start() {
+	  stop(); // stoping the previous counting (if any)
+	  value = 0;
+	  timerInterval = setInterval(changeValue, 1000);  
+	}
+	var stop = function() {
+	  clearInterval(timerInterval);
+	}
+
+	</script>
+</head>
+
+<body>
+
+	<div class="container">
+		<h2>My Relaxation Sounds</h2>
+		<p id="timer">Starting....</p>
+		<p>Currently Playing:</p>
+		<div>
+			<ol id="playlist">
+			
+			</ol>
+		</div>
+
+		<ul class="nav nav-pills">
+		    <li class="active"><a data-toggle="pill" href="#Nature">Nature</a></li>
+		    <li><a data-toggle="pill" href="#White">White Noise</a></li>
+		    <li><a data-toggle="pill" href="#Instrument">Instrument</a></li>
+	  	</ul>
+
+	  	<div class="tab-content">
+		    <div id="Instrument" class="tab-pane fade" style="margin: 10px">
+		      <button type="button" class="btn btn-success" id="meditation_flute">Flute</button>
+			  <button type="button" class="btn btn-success" id="meditation_piano">Piano</button>
+			  <button type="button" class="btn btn-success" id="meditation_bells">Bells</button>
+		    </div>
+		    <div id="White" class="tab-pane fade" style="margin: 10px">
+		      <button type="button" class="btn btn-success" id="gray_noise">Gray Noise</button>
+		      <button type="button" class="btn btn-success" id="pink_noise">Pink Noise</button>
+		      <button type="button" class="btn btn-success" id="whitenoise">White Noise</button>
+		    </div>
+		    <div id="Nature" class="tab-pane fade in active" style="margin: 10px">
+		      <button type="button" class="btn btn-success" id="rain_normal">Normal Rain</button>
+			  <button type="button" class="btn btn-success" id="rain_on_roof">Rain on roof</button>
+			  <button type="button" class="btn btn-success" id="forest_birds">Birds</button>
+			  <button type="button" class="btn btn-success" id="forest_creek">Creek</button>
+			  <button type="button" class="btn btn-success" id="forest_fire">Fire</button>
+			  <button type="button" class="btn btn-success" id="forest_frogs">Frog</button>
+			  <button type="button" class="btn btn-success" id="forest_grasshoppers">Grasshoppers</button>
+			  <button type="button" class="btn btn-success" id="forest_waterfall">Waterfall</button>
+		    </div>
+	  	</div>
+
+		<div style="margin-top: 10px">
+			<button type="button" class="btn btn-danger" id="stop">Restart Playing</button>
+		</div>
+	</div>
+
+
+
+</body>
+
+</html>
